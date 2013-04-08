@@ -34,9 +34,19 @@ class JobController extends Controller
             $category->setMoreJobs($em->getRepository('PushJobeetBundle:Job')->countActiveJobs($category->getId()) - $this->container->getParameter('max_jobs_on_homepage'));
             
         }
-        return $this->render('PushJobeetBundle:Job:index.html.twig', array(
-//            'entities' => $entities,
-             'categories' => $categories
+        $format = $this->getRequest()->getRequestFormat();
+ 
+//return $this->render('EnsJobeetBundle:Job:index.'.$format.'.twig', array(
+//    'categories' => $categories
+//));
+//        return $this->render('PushJobeetBundle:Job:index.html.twig', array(
+////            'entities' => $entities,
+//             'categories' => $categories
+//        ));
+        return $this->render('PushJobeetBundle:Job:index.'.$format.'.twig', array(
+            'categories' => $categories,
+            'lastUpdated' => $em->getRepository('PushJobeetBundle:Job')->getLatestPost()->getCreatedAt()->format(DATE_ATOM),
+            'feedId' => sha1($this->get('router')->generate('push_job', array('_format'=> 'atom'), true)),
         ));
     }
 
