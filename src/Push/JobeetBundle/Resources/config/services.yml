@@ -5,3 +5,15 @@ services:
 #    push_jobeet.example:
 #        class: %push_jobeet.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+services:
+    push.jobeet.admin.category:
+        class: Push\JobeetBundle\Admin\CategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: jobeet, label: Categories }
+        arguments: [null, Push\JobeetBundle\Entity\Category, PushJobeetBundle:CategoryAdmin]
+ 
+    push.jobeet.admin.job:
+        class: Push\JobeetBundle\Admin\JobAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: jobeet, label: Jobs }
+        arguments: [null, Push\JobeetBundle\Entity\Job, PushJobeetBundle:JobAdmin]
