@@ -1,0 +1,22 @@
+#push_jobeet_homepage:
+#    pattern:  /hello/{name}
+#    defaults: { _controller: PushJobeetBundle:Default:index }
+PushJobeetBundle_job:
+    resource: "@PushJobeetBundle/Resources/config/routing/job.yml"
+    prefix: /job
+ 
+PushJobeetBundle_job_default:
+    pattern:  /
+    defaults: { _controller: PushJobeetBundle:Job:index }
+#    prefix: /
+PushJobeetBundle_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PushJobeetBundle:Default:index }
+    
+PushJobeetBundle_category:
+    pattern:  /category/{slug}
+    defaults: { _controller: PushJobeetBundle:Category:show }    
+    
+PushJobeetBundle_category:
+    pattern: /category/{slug}/{page}
+    defaults: { _controller: PushJobeetBundle:Category:show, page: 1 }    

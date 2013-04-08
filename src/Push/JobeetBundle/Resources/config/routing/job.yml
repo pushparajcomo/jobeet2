@@ -1,0 +1,43 @@
+push_job:
+    pattern:  /
+    defaults: { _controller: "PushJobeetBundle:Job:index" }
+
+push_job_show:
+    pattern:  /{company}/{location}/{id}/{position}
+    defaults: { _controller: "PushJobeetBundle:Job:show" }
+    requirements:
+        id:  \d+
+        
+push_job_preview:
+    pattern:  /{company}/{location}/{token}/{position}
+    defaults: { _controller: "PushJobeetBundle:Job:preview" }
+    requirements:
+        token:  \w+
+        
+push_job_new:
+    pattern:  /new
+    defaults: { _controller: "PushJobeetBundle:Job:new" }
+
+push_job_create:
+    pattern:  /create
+    defaults: { _controller: "PushJobeetBundle:Job:create" }
+    requirements: { _method: post }
+
+push_job_edit:
+    pattern:  /{token}/edit
+    defaults: { _controller: "PushJobeetBundle:Job:edit" }
+
+push_job_update:
+    pattern:  /{token}/update
+    defaults: { _controller: "PushJobeetBundle:Job:update" }
+    requirements: { _method: post }
+
+push_job_delete:
+    pattern:  /{token}/delete
+    defaults: { _controller: "PushJobeetBundle:Job:delete" }
+    requirements: { _method: post }
+    
+push_job_publish:
+    pattern:  /{token}/publish
+    defaults: { _controller: "PushJobeetBundle:Job:publish" }
+    requirements: { _method: post }    

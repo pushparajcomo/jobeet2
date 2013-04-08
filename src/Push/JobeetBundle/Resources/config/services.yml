@@ -1,0 +1,7 @@
+parameters:
+#    push_jobeet.example.class: Push\JobeetBundle\Example
+
+services:
+#    push_jobeet.example:
+#        class: %push_jobeet.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

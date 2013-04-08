@@ -1,0 +1,32 @@
+{% extends 'PushJobeetBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+      {{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/pushjobeet/css/jobs.css') }}" type="text/css" media="all" />
+
+{% endblock %}
+{% block content %}
+
+    <div id="jobs">
+      {% for category in categories %}
+      <div>
+        <div class="category">
+          <div class="feed">
+            <a href="">Feed</a>
+          </div>
+         <!-- <h1>{{ category.name }}</h1>-->
+          <h1><a href="{{ path('PushJobeetBundle_category', { 'slug': category.slug }) }}">{{ category.name }}</a></h1>
+        </div>
+        <!-- in src/Push/JobeetBundle/Resources/view/Job/index.html.twig -->
+        {% include 'PushJobeetBundle:Job:list.html.twig' with {'jobs': category.activejobs} %}
+          {% if category.morejobs %}
+            <div class="more_jobs">
+              and <a href="{{ path('PushJobeetBundle_category', { 'slug': category.slug }) }}">{{ category.morejobs }}</a>
+              more...
+            </div>
+          {% endif %}
+      </div>
+    {% endfor %}
+
+    </div>
+{% endblock %}
