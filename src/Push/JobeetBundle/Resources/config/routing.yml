@@ -1,6 +1,13 @@
 #push_jobeet_homepage:
 #    pattern:  /hello/{name}
 #    defaults: { _controller: PushJobeetBundle:Default:index }
+login:
+    pattern:   /login
+    defaults:  { _controller: PushJobeetBundle:Default:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout    
 PushJobeetBundle_job:
     resource: "@PushJobeetBundle/Resources/config/routing/job.yml"
     prefix: /job

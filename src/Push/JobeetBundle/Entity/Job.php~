@@ -584,9 +584,6 @@ class Job
     /**
      * @ORM\PrePersist
      */
-    /**
-* @ORM\prePersist
-*/
     public function preUpload()
     {
       if (null !== $this->file) {
@@ -596,7 +593,7 @@ class Job
     }
 
     /**
-    * @ORM\postPersist
+    * @ORM\PostPersist
      *
     */
     public function upload()
@@ -615,7 +612,7 @@ class Job
     }
 
     /**
-    * @ORM\postRemove
+    * @ORM\PostRemove
     */
     public function removeUpload()
     {
@@ -649,4 +646,5 @@ class Job
     {
       $this->setIsActivated(true);
     }
+
 }

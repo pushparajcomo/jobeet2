@@ -3,20 +3,27 @@ jms_security_extra:
     expressions: true
 
 security:
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+#    encoders:
+#        Symfony\Component\Security\Core\User\User: plaintext
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+#    providers:
+#        in_memory:
+#            memory:
+#                users:
+#                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+#                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
+    providers:
+        main:
+            entity: { class: Push\JobeetBundle\Entity\User, property: username }
+
+    encoders:
+        Push\JobeetBundle\Entity\User: sha512
+ 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
@@ -27,18 +34,20 @@ security:
             security: false
 
         secured_area:
-            pattern:    ^/demo/secured/
+            pattern:    ^/
+            anonymous: ~
             form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
+                login_path:  /login
+                check_path:  /login_check
             logout:
-                path:   /demo/secured/logout
-                target: /demo/
+                path:   /logout
+                target: /
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
 
     access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #
         # You must uncomment the two following rules to restrict access to paths
