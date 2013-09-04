@@ -1,0 +1,192 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+<link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/sitemap/sitemapTree.css') }}" type="text/css" media="all">
+<div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="row-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="{{ page.site.url }}">
+                    <strong>{{ page.site.name }}</strong>
+                </a>
+                <ul class="nav" id="root_menu">
+                    {% if settings.content.items is defined %}
+                        {% for i, menuitem in settings.content.items %}
+                                            
+                                            <li class="dropdown-submenu dropdown" id="{{menuitem.idAttr}}">
+                                                {% set currentPage = page(menuitem.pageId) %}
+                                                <a class="dropdown-toggle {{ menuitem.classAttr }}" data-toggle="dropdown" href="{%if menuitem.link is empty %}#{% else %}{{ path(page(menuitem.pageId)) }}{% endif %}">{{ menuitem.name }}</a>
+                                                {% if menuitem.items is defined %}
+                                                <ul class="dropdown-menu" id="submenu-{{menuitem.idAttr}}">
+                                                {% for j, submenu in menuitem.items %}
+                                                    <li id="{{submenu.idAttr}}"><a class="{{ submenu.classAttr }}" href="{%if submenu.link is empty %}#{% else %}{{ path(page(submenu.pageId)) }}{% endif %}">{{ submenu.name }}</a></li>
+                                                {% endfor %}
+                                                </ul>
+                                                {% endif%}
+                                          
+                                            </li>
+                        {% endfor %}
+                    {% endif %}
+                            </ul>
+{% if app.security.token and app.security.isGranted('ROLE_SONATA_ADMIN') %}                          
+                            
+                            <a href="#editMenu" data-toggle="modal"><i class="icon-pencil"></i></a>
+                            <div id="editMenu" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3 id="myModalLabel">Add Menu Item</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        <a href="#add_root" onclick="addNode(null)"><i class="icon-plus"></i>Add</a>
+                                        <ul id="PageTree" class="tree sortable">
+                                        {% if settings.content.items is defined %}
+                                             {% set menu = settings.content.items %}
+                                             {% include "ApplicationSonataPageBundle:Block:menu_item.html.twig" with {'links':menu} only %}
+                                        {% endif %}
+                                        </ul>
+                                        <div id="node-form" class="ui-helper-hidden" >
+                                
+                                <fieldset>
+                                    <legent>Add or Edit</legend>
+                                    <p><input id="nav-item-name" class="input-medium" type="text" ><br/>
+                                            <input id="nav-item-link" type="hidden" value="">
+                                            <input id="nav-item-page-id" type="hidden" value="">
+                                            <input id="nav-item-link-display" class="input-medium typeahead" type="text" placeholder="Link"><br/>
+                                            <input id="nav-item-class" class="input-medium" type="text" placeholder="Item Class"  data-provide="typeahead" >
+                                            <input id="nav-item-parent-id" type="hidden" value="">
+                                    </p>
+                                </fieldset>
+                                <button class="btn btn-primary" onclick="saveNode()" >Add</button>
+                                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                
+                            </div>
+                                    </p>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                    <button class="btn btn-primary" id="sync_menu" >Sync</button>
+                                </div>
+                            </div>
+                            
+                            
+                            
+{% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+{% if app.security.token and app.security.isGranted('ROLE_SONATA_ADMIN') %}
+            <div id="output_json_res"></div>
+<script type="text/javascript">
+var page_id = '{{page.id}}';
+var block_id = '{{block.id}}';
+$('.typeahead').typeahead({
+                source: function(query, process) {
+                    return $.ajax({
+                        url: '/app_dev.php/typeahead/'+page_id+'/'+query,
+                        type: 'get',
+
+                        dataType: 'json',
+                        success: function(json) {
+                            console.log(json.urls);
+                            links = json.urls;
+                            pages = json.pages;
+                            return typeof json.options == 'undefined' ? false : process(json.options);
+                        }
+                    });
+                },
+                
+                updater: function(item) {
+                    $('#nav-item-link').val(links[item]);
+                    $('#nav-item-page-id').val(pages[item]);
+                    return item
+                }
+});
+
+var menu = {{ settings.content.items|json_encode()|raw }};
+var menu_count = {{ settings.content.items|length }};
+
+
+
+function addNode(node)
+{
+    $('#node-form input').val('');
+    $('#node-form').show();
+}
+function editNode(node)
+{
+    $('#nav-item-name').val(node.attr('data-name')); 
+    $('#nav-item-link').val(node.attr('data-link'));
+    $('#nav-item-link-display').val(node.attr('data-link-name'));
+    $('#nav-item-class').val(node.attr('data-class'));
+    $('#nav-item-page-id').val(node.attr('data-pageid'));
+    $('#node-form').modal();
+}
+
+function saveNode()
+{
+    var menuItem = '<li class="parent collapsed" data-name="'+$('#nav-item-name').val()+'" data-route="'+$('#nav-item-link').val()+'" data-class="'+$('#nav-item-class').val()+'" data-pageid="'+$('#nav-item-page-id').val()+'" >'+$('#nav-item-name').val()+'</li>'
+    $('#PageTree').append(menuItem);
+    $('#node-form').hide();
+}
+
+
+
+$(document).ready(function(){
+	var tree = $("ul.tree").liveflex_treeview({
+		handle:'a.caption'
+		,callbackSelector: 'span.callback'
+		,callback: function(e){
+			//one way to use different items, you could also use rel or data
+			if($(e.target).hasClass('op1')){
+                            addNode($(e.target).closest('li'));
+			}else if($(e.target).hasClass('op2')){
+                            editNode($(e.target).closest('li'));
+			}
+                        else{
+                            if(confirm('Are you sure! This will delete the selected node and all its children')){
+                                $(e.target).closest('li').remove();
+                            }
+                            else{
+                                return false;
+                            }
+                            
+                        }
+		},itemMoved: function(csv){
+			
+		},dirClick: function(node){
+			//console.log(node.find('>a').text() + " > " + (node.hasClass('collapsed') ? ' closed' : ' opened'));
+		},nodeClick: function(node){
+			//console.log(node.find('>a').text() + ' > selected');
+		}
+	});
+	$('#sync_menu').click(function(e){
+		//get the moved items as id-parentId.position, used for db update
+		//log(tree.data("liveflex.treeview").getMoved());
+		//or get the tree as a nested array, to process further
+		var treeArray = tree.data("liveflex.treeview").parseTree();
+	});
+});
+</script>
+{% endif %}
+{% endblock %}

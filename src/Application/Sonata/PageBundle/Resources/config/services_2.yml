@@ -1,0 +1,62 @@
+parameters:
+    #Site Admin Controller
+    sonata.page.admin.site.class:      Application\Sonata\PageBundle\Admin\SiteAdmin
+    #Page Admin Class
+    sonata.page.admin.page.class:      Application\Sonata\PageBundle\Admin\PageAdmin
+    #Page Admin Controller
+    sonata.page.admin.page.controller: ApplicationSonataPageBundle:PageAdmin
+    #Template rendering service for default type pages
+    sonata.page.service.default.class: Application\Sonata\PageBundle\Page\Service\DefaultPageService
+    #snapshot manager
+    sonata.page.manager.snapshot.class: Application\Sonata\PageBundle\Entity\SnapshotManager
+    #CMS Snapshot Manager
+    sonata.page.cms_manager.snapshot.class: Application\Sonata\PageBundle\CmsManager\CmsSnapshotManager
+    
+    sonata.page.cms_manager.page.class: Application\Sonata\PageBundle\CmsManager\CmsPageManager
+    
+#    sonata.media.manager.media: Application\Sonata\PageBundle\Block\MediaManagerInterface
+    
+    sonata.media.manager.media.class: Application\Sonata\PageBundle\Block\MediaManager
+    
+    #sonata.page.block.children_pages.class: Application\Sonata\PageBundle\Block\MenuBlockService
+    
+services: 
+      
+    sonata.block.service.taggedmedia:
+        class:        Application\Sonata\PageBundle\Block\TaggedMediaBlockService
+        arguments:    ['sonata.block.service.taggedmedia', "@templating", "@service_container", "@sonata.media.manager.media"]
+        tags:
+            -  { name: sonata.block }
+
+    sonata.block.service.linkedmedia:
+        class:        Application\Sonata\MediaBundle\Block\LinkedMediaService
+        arguments:    ['sonata.block.service.linkedmedia', "@templating", "@service_container", "@sonata.media.manager.media"]
+        tags:
+            -  { name: sonata.block }
+
+    sonata.block.service.menu:
+        class:        Application\Sonata\PageBundle\Block\MenuBlockService
+        arguments:    ['sonata.block.service.menu', "@templating", '@doctrine.orm.entity_manager']
+        tags:
+            -  { name: sonata.block, agile_content_sidebar_title: "Nav", agile_content_sidebar_class: "sidebar_block ui-draggable" }
+
+#    sonata.block.service.desktop.menu:
+#            class:        Application\Sonata\PageBundle\Block\DesktopMenuBlockService
+#            arguments:    ['sonata.block.service.menu', "@templating", '@doctrine.orm.entity_manager']
+#            tags:
+#                -  { name: sonata.block, agile_content_sidebar_title: "Nav", agile_content_sidebar_class: "sidebar_block ui-draggable" }
+            
+    pageurl.twig.extension:
+        class: Application\Sonata\PageBundle\Twig\Extension\PageUrlTwigExtension
+        tags:
+            -  { name: twig.extension }
+        arguments:
+            em: "@doctrine.orm.entity_manager"
+            router: "@symfony_cmf_routing_extra.router"
+
+    stripslash.twig.extension:
+        class: Application\Sonata\PageBundle\Twig\Extension\StripslashPageExtension
+        tags:
+            -  { name: twig.extension }
+            
+#Application\Sonata\PageBundle\Block\MediaManagerInterface, instance of Sonata\MediaBundle\Entity\MediaManager

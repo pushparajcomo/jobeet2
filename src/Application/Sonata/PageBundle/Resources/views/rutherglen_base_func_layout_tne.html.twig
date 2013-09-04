@@ -1,0 +1,79 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel=”shortcut icon” type=”image/x-icon” href=”/favicon.ico”>
+    <link rel="apple-touch-icon" href="/Icon.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/Icon-72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/Icon2x.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/Icon-722x.png" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    {% block page_stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/bootstrap.min.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/bootstrap-responsive.min.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/operator/operator.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/operator/general.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/fonts.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/operator/nlform.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/default.css') }}" type="text/css" media="all" />
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('bundles/tneoperator/css/font-awesome.min.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/tneoperator/css/openwebicons-bootstrap.css') }}" type="text/css" media="all" />            
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonataadmin/css/custom-theme/jquery-ui-1.10.0.custom.css') }}" type="text/css" media="all" />
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ asset('bundles/applicationsonataadmin/select2.css') }}" type="text/css" media="all" />
+
+    {% endblock %}
+
+    {% block page_javascripts %}
+        <script type="text/javascript">
+            var environment = '{{ app.environment }}';
+            var baseurl = ( environment == "dev")?'/app_dev.php':'/app.php';
+        </script>
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51edf4711dcba4c2"></script>
+        <script src="{{ asset('bundles/sonatajquery/jquery-1.8.0.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/applicationsonataadmin/js/jquery-ui-1.10.0.custom.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script src="{{ asset('bundles/applicationsonataadmin/select2.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/applicationsonataadmin/js/jquery.raty.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/applicationsonatapage/sitemap/twitter-bootstrap-hover-dropdown.js') }}" type="text/javascript"></script>
+    {% endblock %}
+    {% block gacode %}   
+        {% render url('site_ga_code') %}
+    {% endblock gacode%}  
+</head>
+
+<body id="home" class="general planner">
+{% block content %}
+{% endblock %}
+{% block rutherglen_javascripts %}
+    <script src="{{ asset('bundles/applicationsonatapage/theme/rutherglen/js/modernizr.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('bundles/applicationsonatapage/theme/rutherglen/js/nlform.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/applicationsonatapage/theme/rutherglen/js/response.min.js') }}" type="text/javascript"></script>
+{% endblock %}
+<script>
+    $("select").select2({width: 'resolve'});
+</script>
+
+</body>
+</html>

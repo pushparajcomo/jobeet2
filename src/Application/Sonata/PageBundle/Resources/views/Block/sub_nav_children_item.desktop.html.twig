@@ -1,0 +1,17 @@
+{% for link in links %}
+    <dl class="span2">
+        <dd><h3><a href="{%if link.pageType is defined and link.pageType == 'external' %}{{ link.externalUrl }}{% else %}{{ page(link.pageId)? path(page(link.pageId)): '#' }}{% endif %}">{{ link.name }}</a></h3></dd>
+        {% if link.items is defined %}
+            {% for item in link.items %}
+                {%if item.pageType is defined and item.pageType == 'external' %}
+                    {% set url = item.externalUrl %}
+                    {% set blank = 'target="_blank"' %}
+                {% else %}
+                    {% set url = page(item.pageId)? path(page(item.pageId)): '#' %}
+                    {% set blank = '' %}
+                {% endif %}
+                <dd><a href="{{ url }}" {{ blank}} >{{ item.name }}</a></dd>
+            {% endfor %}
+        {% endif %}
+    </dl>
+{% endfor %}

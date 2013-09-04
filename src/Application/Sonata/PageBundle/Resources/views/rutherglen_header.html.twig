@@ -1,0 +1,112 @@
+<div id="whiteBgTop">
+
+        <div id="panel0" class="container" style="position: relative;">
+
+            <div class="row">
+                <div class="span4 logo">
+                    <h1><a href="/" title="Rutherglen">Rutherglen</a></h1>
+                    <a class="toggleMenu showTablet" href="#"><i class="icon-reorder"></i>
+                    
+                     </a>
+                    <a id="search" class="search showTablet mobileHeader" href="#" style="line-height: 42px;"><i class="icon-search"></i></a>
+                </div>
+                <div class="span8">
+                    <ul class="inline bar">
+                        <li class="first-menu"><a href="/weather-details">weather<span class="climacon sun"></span></a></li>
+                        <li class="second-menu hidden-phone hidden-tablet hidden-desktop"><a href="#">NOW <strong>3.4&deg;</strong>C</a></li>
+                        <li class="third-menu hidden-phone hidden-tablet">
+                            <div class="addthis_toolbox addthis_floating_style addthis_24x24_style">
+                                <a class="addthis_button_compact">
+                                   share<i class="icon-share-simple" style="font-size: 1.4em;position: absolute;top: 6px;}"></i>
+                                </a>
+                            </div>
+                        </li><!-- TODO: conect to addThis API -->
+                        <li class="fourth-menu wide">
+                            <a>connect</a>
+                            <a href="{{ page.site.facebookUrl }}"><span class="icon-facebook"></span></a>
+                            <a target="_blank" href="{{ page.site.twitterUrl }}"><span class="icon-twitter"></span></a>
+                            <a href="javascript:void(0)" onclick="focusSubscriber()"><span class="icon-envelope"></span></a>
+
+                        </li>
+                        <li class="fifth-menu hidden-phone hidden-tablet" id="search2"><a href="#" class="toggleDesktop searchTrigger">search</a></li>
+                        <li class="lastLi">
+                            <a href="{{ path('booking_planner') }}" class="last">planner ({{ app.session.get('booking_data') | length + app.session.get('event_data') | length + app.session.get('attraction_data') | length}})</a>
+                            <a href="{{ path('booking_cart') }}" class="visible-phone" style="margin-left: -8px; "><span class="icon-shopping-cart show1024"></span></a>
+                        </li>
+                    </ul>
+
+                 </div>
+            </div>
+
+            <div id="desktopMenu" class="row">
+                    {{ sonata_page_render_container('menu', 'global') | sonata_page_render_custome_block([{'service':'sonata.block.service.menu', 'template':'desktop'}]) }}
+            </div>
+
+
+
+
+        </div><!-- container -->
+    </div>
+<script type="text/javascript">
+
+    function focusSubscriber()
+    {
+        $("input[id$='firstname_subscribe']").focus();
+    }
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '141326762742356', // App ID
+            status: true, // check login status
+            cookie: true, // enable cookies to allow the server to access the session
+            xfbml: true  // parse XFBML
+        });
+    };
+
+    (function(d) {
+        var js, id = 'facebook-jssdk';
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        d.getElementsByTagName('head')[0].appendChild(js);
+    }(document));
+
+    function fbShare()
+    {
+        FB.ui(
+                {
+                    method: 'feed',
+                    name: 'test',
+                    picture: location.protocol+'//'+location.host+'/'+'/images/facebook-promo.jpg',
+                    caption: '',
+                    description: 'Rutherglen Home page',
+                    link: location.protocol+'//'+location.host,
+                    show_error: true
+                },
+        function(response) {
+        }
+        );
+    }
+{#% if not sonata_page.isEditor or not app.security and not app.security.isGranted('ROLE_PREVIOUS_ADMIN') %#}
+    jQuery(document).ready(function(){
+        jQuery(document).keyup(function(event){
+            if(jQuery(".navContent:visible").length > 0 && jQuery(".navContent:animated").length == 0){
+                if($(event.target).parents('#headerDrop').length == 0 && $(event.target).attr("id") != "headerDrop"){
+                    $('.toggleDesktop.on').trigger('click');
+                }
+            }
+        });
+        jQuery(document).click(function(event){
+            if(jQuery(".navContent:visible").length > 0 && jQuery(".navContent:animated").length == 0){
+                if($(event.target).parents('#headerDrop').length == 0 && $(event.target).attr("id") != "headerDrop"){
+                    $('.toggleDesktop.on').trigger('click');
+                }
+            }
+        });
+
+    });
+{#% endif %#}        
+</script>

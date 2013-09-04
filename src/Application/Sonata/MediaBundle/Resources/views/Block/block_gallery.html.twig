@@ -1,0 +1,85 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends 'SonataBlockBundle:Block:block_base.html.twig' %}
+
+{% block block %}
+    {% if settings.title %}
+        <h3 class="sonata-media-block-media-title">{#{ settings.title }#}</h3>
+    {% endif %}
+
+   {% if sonata_page.isEditor or app.security and app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
+    {% if app.environment == 'prod' %}
+        <a href="/admin/sonata/media/gallery/list?uniqid=s51b41b760fd35&amp;code=sonata.media.admin.gallery&amp;pcode=sonata.page.admin.block&amp;puniqid=s51b41b76033d5" onclick="return start_field_dialog_form_list_s51b41b76033d5_settings_mediaId(this);" class="btn btn-inverse" blockid="{{ block.id }}" code="sonata.media.admin.gallery" title="List" style="margin-left:10px"><i class="icon-list"></i>
+                    Select Gallery
+        </a>
+        <!--<a href="/admin/sonata/media/gallery/create?uniqid=s51b41b760fd35&amp;code=sonata.media.admin.gallery&amp;pcode=sonata.page.admin.block&amp;puniqid=s51b41b76033d5" onclick="return start_field_dialog_form_add_s51b41b76033d5_settings_mediaId(this);" class="btn btn-inverse" blockid="{{ block.id }}" code="sonata.media.admin.gallery" title="List" style="margin-left:10px"><i class="icon-list"></i>Add Gallery</a> -->
+     {% else %}
+        <a href="/app_dev.php/admin/sonata/media/gallery/list?uniqid=s51b41b760fd35&amp;code=sonata.media.admin.gallery&amp;pcode=sonata.page.admin.block&amp;puniqid=s51b41b76033d5" onclick="return start_field_dialog_form_list_s51b41b76033d5_settings_mediaId(this);" class="btn btn-inverse" blockid="{{ block.id }}" code="sonata.media.admin.gallery" title="List" style="margin-left:10px"><i class="icon-list"></i>
+                    Select Gallery
+        </a>
+        <!--<a href="/app_dev.php/admin/sonata/media/gallery/create?uniqid=s51b41b760fd35&amp;code=sonata.media.admin.gallery&amp;pcode=sonata.page.admin.block&amp;puniqid=s51b41b76033d5" onclick="return start_field_dialog_form_add_s51b41b76033d5_settings_mediaId(this);" class="btn btn-inverse" blockid="{{ block.id }}" code="sonata.media.admin.gallery" title="List" style="margin-left:10px"><i class="icon-list"></i>
+                    Add Gallery
+        </a>-->        
+     {% endif %}
+    <!--<a class="btn-primary btn" id="clickBtn" href="/app_dev.php/admin/sonata/media/media/list?uniqid=s51b41b760fd19&code=sonata.media.admin.media&pcode=sonata.page.admin.block&puniqid=s51b41b76033d8" data-toggle="modal" data-target="#myModal_{#{ block.id }#}">Edit</a> -->
+
+    <div class="container sonata-ba-modal sonata-ba-modal-edit-one-to-one ui-dialog-content ui-widget-content" style="width: auto; min-height: 104px; height: auto; display: none; " id="field_dialog_s51b41b76033d5_settings_mediaId" scrolltop="0" scrollleft="0">
+    </div>
+    <!--<div class="modal fade" id="myModal_{#{ block.id }#}" style="width:80%;height:80%;overflow: scroll; left: 30%; display: none;"></div> -->
+    {% endif %}
+        
+    
+        
+   <div class="container">
+      <div id="sonata-media-block-gallery-{{ block.id }}" class="carousel slide">
+        <div class="carousel-inner">
+          {% for element in elements %}
+                {% if(loop.first) %}
+                    <div class="item active">
+                {% else %}
+                            <div class="item">
+                {% endif %}
+                        {% if element.type == 'image' %}
+                                    {% media element.media, settings.format %}
+                        {% elseif element.type == 'video' %}
+                            {% media element.media, settings.format %}
+                        {% endif %}
+                        <div class="carousel-caption">
+                          <p>{{ element.caption }}</p>
+                        </div>
+                    </div>
+            {% else %}
+                    {# no elements #}
+         {% endfor %}                
+        </div>
+          {% if elements|length > 1 %}
+            <a class="carousel-control left" href="#sonata-media-block-gallery-{{ block.id }}" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#sonata-media-block-gallery-{{ block.id }}" data-slide="next">&rsaquo;</a>
+          {% endif %}
+      </div>
+    </div>
+
+    {% if sonata_page.isEditor or app.security and app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
+
+        <!-- <a class="btn-primary btn" id="clickBtn" href="/app_dev.php/admin/sonata/media/gallery/create?context=default" data-toggle="modal" data-target="#myModal_{{ block.id }}">select gallery</a>
+
+        <div class="modal fade" id="myModal_{{ block.id }}" style="width:80%;height:80%;overflow: scroll; left: 30%; display: none;"></div> -->
+        
+    {% endif %}
+    
+<script>
+      $(document).ready(function(){
+        $('.carousel').carousel({
+          interval: 4000
+        });
+      });
+    </script>
+{% endblock %}

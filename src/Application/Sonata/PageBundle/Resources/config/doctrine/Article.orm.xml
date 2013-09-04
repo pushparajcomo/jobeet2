@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity repository-class="Application\Sonata\PageBundle\Entity\ArticleRepository" name="Application\Sonata\PageBundle\Entity\Article">
+    <id name="id" type="integer" column="id">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="name" type="string" column="name" length="255"/>
+    <field name="title" type="string" column="title" length="255"/>
+    <field name="body" type="text" column="body"/>
+    <field name="sources" type="string" column="sources" length="255" nullable="true"/>
+    <field name="notes" type="string" column="notes" length="255" nullable="true"/>
+    <field name="publishDate" type="date" column="publish_date" nullable="true"/>
+    <field name="expiryDate" type="date" column="expiry_date" nullable="true"/>
+    <field name="showAuthor" type="boolean" column="show_author" nullable="true" />
+        
+    <one-to-many field="media" target-entity="Application\Sonata\PageBundle\Entity\ArticleMedia" mapped-by="article">
+        <order-by>
+            <order-by-field name="position" direction="ASC" />
+        </order-by>        
+        <cascade>
+            <cascade-persist />
+            <cascade-refresh />
+            <cascade-remove />
+        </cascade>        
+    </one-to-many>
+    
+    <many-to-one field="author" target-entity="Application\Sonata\UserBundle\Entity\User">
+        <join-column name="author_id" referenced-column-name="id" />
+    </many-to-one>
+    
+    <many-to-many field="tags" inversed-by="article" target-entity="Application\Sonata\PageBundle\Entity\Tag">
+        <join-table name="article_tags">
+            <join-columns>
+                <join-column name="article_id" referenced-column-name="id" nullable="true"/>
+            </join-columns>
+            <inverse-join-columns>
+                <join-column name="tag_id" referenced-column-name="id"  nullable="true"/>
+            </inverse-join-columns>
+        </join-table>
+    </many-to-many>          
+    
+  </entity>
+</doctrine-mapping>

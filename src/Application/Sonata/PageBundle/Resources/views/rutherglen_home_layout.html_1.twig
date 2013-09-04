@@ -1,0 +1,68 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends 'ApplicationSonataPageBundle::rutherglen_base_layout.html.twig' %}
+
+{% block flexsliderjs %}
+    {{ parent() }}
+{% endblock %}
+{% block flexslidercss %}
+{%  endblock %}
+{% block bodyMain %} <body class="sonata-bc" id="home" style="background: white url({{ 'bundles/applicationsonatapage/theme/rutherglen/img/bg-grapes.jpg' }}) no-repeat center center fixed;">   {%  endblock %}
+{% block page_container %}
+
+{% include 'ApplicationSonataPageBundle::rutherglen_header.html.twig' %}
+
+    {{ sonata_page_render_container('BannerImage', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'hero'}]) }}
+
+    <div id="panel2" class="container"> <!-- second panel -->
+
+        <div class="row">
+            <div class="span6 leaf-container">
+                <div id="leafTop"></div>
+                <div id="leafClip" class="hidden-phone"></div>
+                <div class="leaf-padding">
+                    {{ sonata_page_render_container('content-top', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.text'}]) }}
+                    <a class="mapsLink" href="/Feature-Leaf">getting to rutherglen</a>
+                </div>
+            </div>
+            <div class="span6 rightLinks">
+                {{ sonata_page_render_container('rightLink1', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'tile'}]) }}
+                {{ sonata_page_render_container('rightLink2', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'tile'}]) }}
+                {{ sonata_page_render_container('rightLink3', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'tile'}]) }}
+                {{ sonata_page_render_container('rightLink4', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'tile'}]) }}
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div> <!-- /container -->
+
+    <div class="container"><!-- third panel -->
+
+     {% render 'TNEOperatorBundle:Default:homepageEvents'  with { 'city': 'rutherglen' } %}
+
+    </div> <!-- /container -->
+    </div>
+
+    <div id="panel4" class="container"><!-- fourth panel -->
+        <div class="row">
+            <div class="span12">
+                {{ sonata_page_render_container('more_to_see', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.text'}]) }}
+            </div>
+            {{ sonata_page_render_container('panel1', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'panel'}]) }}
+            {{ sonata_page_render_container('panel2', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'panel'}]) }}
+            {{ sonata_page_render_container('panel3', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'panel'}]) }}
+            {{ sonata_page_render_container('panel4', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'panel'}]) }}
+        </div><!-- row -->
+    </div> <!-- /container -->
+
+{% include 'ApplicationSonataPageBundle::rutherglen_footer.html.twig' %}
+            
+{% endblock %}

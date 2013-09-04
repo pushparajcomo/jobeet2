@@ -1,0 +1,10 @@
+<ul>
+{% for link in links %}
+    <li>
+        <a href="{%if link.pageId is empty %}#{% else %}{{ path(page(link.pageId)) }}{% endif %}" class="{% if link.items is defined %}parent{% endif %}">{% if head_tag is defined %}<h3>{{ link.name }}</h3> {% else %} {{ link.name }} {% endif %}</a>
+        {% if link.items is defined %}
+                {% include "ApplicationSonataPageBundle:Block:sub_nav_item.mobile.html.twig" with {'links':link.items} only %}
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Application\Sonata\PageBundle\Entity\Tag">
+    <id name="id" type="integer" column="id">
+      <generator strategy="AUTO"/>
+    </id>
+        <field name="name" type="string" column="name" length="255"/>
+        <field name="position" type="integer" column="position" nullable="true"/>
+        
+        <field name="hidden" type="boolean" column="hidden" nullable="true" />
+        <!--    Move Tag Entity to into a seperate Bundle (AgileTagBundle)    -->
+        <many-to-many field="pages" mapped-by="tags" target-entity="Page"/>
+        <many-to-many field="snapshot" mapped-by="tags" target-entity="Application\Sonata\PageBundle\Entity\Snapshot"/>        
+        
+        <many-to-many field="media" mapped-by="tags" target-entity="Application\Sonata\MediaBundle\Entity\Media"/>
+        
+        <many-to-many field="accommodation" mapped-by="tags" target-entity="TNE\OperatorBundle\Entity\Accommodation"/>
+        <many-to-many field="event" mapped-by="tags" target-entity="TNE\OperatorBundle\Entity\Event"/>                
+        <many-to-many field="attraction" mapped-by="tags" target-entity="TNE\OperatorBundle\Entity\Attraction"/>
+        <many-to-many field="restaurant" mapped-by="tags" target-entity="TNE\OperatorBundle\Entity\Restaurant"/>
+        
+        <many-to-one field="parent" target-entity="Tag" />
+    
+  </entity>
+</doctrine-mapping>

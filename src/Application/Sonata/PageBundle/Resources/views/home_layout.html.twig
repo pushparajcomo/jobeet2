@@ -1,0 +1,109 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{#% extends 'ApplicationSonataPageBundle::base_layout.html.twig' %#}
+
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends 'SonataPageBundle::base_layout.html.twig' %}
+
+{% block page_container %}
+    <div class="container">
+        <div class="content">
+            <div class="page-header">
+                <div class="pull-left">
+                    {{ sonata_page_render_container('title', 'global') }}
+                </div>
+
+                <div class="pull-right navigation">
+                    {{ sonata_page_render_container('header', 'global') }}
+                </div>
+                <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                <div class="">
+
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="{{ site.url }}">
+                    <strong>{{ site.name }}</strong>
+                    </a>
+                {{ sonata_page_render_container('menu', 'global') | sonata_page_render_custome_block([{'service':'sonata.block.service.menu'}]) }}
+                </div>
+
+                </div>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+                
+              {% if page is defined %}
+                <div class="row">
+                    {{ sonata_page_render_container('content_top', page)  | sonata_page_render_custome_block([{'service':'sonata.block.service.text'},{'service':'sonata.media.block.feature_media'}]) }}
+                </div>
+            {% endif %}
+
+            <div class="row">
+                {% if content is defined %}
+                    {{ content|raw }}
+                {% else %}
+                    {% set content = block('content') %}
+                    {% if content|length > 0 %}
+                        {{ content|raw }}
+                    {% elseif page is defined %}
+                        {{ sonata_page_render_container('content', page) }}
+                    {% endif %}
+                {% endif %}
+            </div>
+                <div class="row">
+                        {{ sonata_page_render_container('firstimage', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.text'},{'service':'sonata.media.block.feature_media'}]) }}
+
+               </div>
+                <div class="row">
+                    {{ sonata_page_render_container('2image', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.text'},{'service':'sonata.media.block.feature_media'}]) }}
+
+                </div>
+                
+                <div class="row">
+                    {{ sonata_page_render_container('3image', page)   }}
+                        
+                </div>
+                <div class="row">
+                    {{ sonata_page_render_container('gallery', page) }}
+                        
+                </div>
+
+                <div class="row">
+                    {{ sonata_page_render_container('asasdasd', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'hero'}]) }}
+                </div>
+            <div class="row">
+                {{ sonata_page_render_container('tesssssssttttt', page) | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'tile'}]) }}
+            </div>
+                        
+                </div>
+
+           
+                        
+                
+
+        <footer>
+            {#{{ sonata_page_render_container('footer', 'global') }}#}
+        </footer>
+    </div>
+{% endblock %}

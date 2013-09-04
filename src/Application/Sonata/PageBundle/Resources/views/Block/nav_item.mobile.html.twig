@@ -1,0 +1,31 @@
+{% for link in links %}
+    <li>
+        <a href="{%if link.pageId is empty %}#{% else %}{{ path(page(link.pageId)) }}{% endif %}" class="{% if link.items is defined %}parent{% endif %}">{{ link.name }}</a>
+        {% if link.summary is defined %}
+            <ul class="hidden-phone">
+                <li><h2>{{ link.summary.title }}</h2></li>
+                <li>{{ link.summary.desc }}</li>
+            </ul>
+        {% endif %}
+        {% if link.items is defined %}
+                {% include "ApplicationSonataPageBundle:Block:sub_nav_item.mobile.html.twig" with {'links':link.items, 'head_tag': true } only %}
+                <ul>
+                    <li>
+                        <a href="#"><h3>Find by type</h3></a>
+                        <ul>
+                            <li><a href="#">Hotels</a></li>
+                            <li><a href="#">Bed &amp; Breakfast</a></li>
+                            <li><a href="#">Motel</a></li>
+                            <li><a href="#">Campsite</a></li>
+                            <li><a href="#">Cabin</a></li>
+                            <li><a href="#">Another type</a></li>
+                        </ul>
+                    </li>
+                </ul>
+        {% endif %}
+
+
+    </li>
+{% endfor %}
+
+

@@ -1,0 +1,44 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+
+    <div class="navbar navbar-inverse navbar-static-top {{ settings.class }}">
+    <div class="navbar-inner">
+        <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="{% if page.parent %}{{ path(page.parent) }}{% else %}{{ path(page) }}{% endif %}">
+                    <strong>{{ page.site.name }}</strong>
+                </a>
+            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                    {% if page.parent %}
+                            {% for child in page.parent.children %}                    
+                                <li><a href="{{ path(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
+                            {% endfor %}                        
+                    {% else %}
+                        {% if page %}
+                            {% for child in page.children %}                    
+                                <li><a href="{{ path(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
+                            {% endfor %}
+                        {% endif %}                             
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% for link in links %}
+    <li class="{% if link.items is defined %} {{ li_class }} {% endif %}" >
+        <a class="{% if link.items is defined %} dropdown-toggle {% endif %} {{ link.classAttr }}" {% if link.items is defined %} data-toggle="dropdown" {%if(data_hover)%} data-hover="dropdown" {% endif %} {% endif %} href="{%if link.pageId is empty %}#{% else %}{{ path(page(link.pageId)) }}{% endif %}">
+            {{ link.name }}{% if link.items is defined %} <span class="caret"></span>{% endif %} </a>
+        {% if link.items is defined %}
+             <ul class="dropdown-menu">
+                {% include "ApplicationSonataPageBundle:Block:nav_item.html.twig" with {'links':link.items, 'li_class': 'dropdown-submenu', 'data_hover': false } only %}
+            </ul>
+        {% endif %}
+    </li>
+    {% if li_class == 'dropdown' %}
+    <li class="divider-vertical"></li>
+    {% endif %}
+{% endfor %}

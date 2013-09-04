@@ -1,0 +1,9 @@
+{% for link in links %}
+    <option value="{{ link.idAttr }}">{{level}}{{ link.name }}</option>
+        {% if link.items is defined %}
+            {% set indicator = '-' %}
+            {% set newlevel = [level, indicator]|join %}
+            {% include "ApplicationSonataPageBundle:Block:menu_options.html.twig" with {'links':link.items,  'level': newlevel } only %}
+        {% endif %}
+{% endfor %}
+

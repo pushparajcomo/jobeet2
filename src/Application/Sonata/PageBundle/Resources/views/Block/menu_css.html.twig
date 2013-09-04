@@ -1,0 +1,52 @@
+<style type="text/css">
+	.over{outline:solid 1px #afa}
+	.on{background:green;border:solid 1px green;}
+	.below{border-bottom:solid 2px #ddf;}
+	.below span{}
+	.above{border-top:solid 2px #ddf;}
+	.tree_hover{background:#fafaff}
+
+	ul.tree, ul.tree ul{list-style-type:none;padding:0;}
+	ul.tree li, ul.tree li ul li{
+		line-height:1.7em;cursor:default;
+		background:url(icons/line.png) no-repeat;;
+		padding-left:16px;
+	}
+	ul.tree li a.caption{
+		background:url(icons/page.png) no-repeat left center;
+		padding-left:20px;
+		min-width:200px;
+	}
+	ul.tree li.parent.expanded>a.caption{
+	background:url(icons/folder.png) no-repeat left center;
+	}
+	ul.tree li.parent.collapsed>a.caption{
+	background-image:url(icons/folder_page.png);
+	}
+	ul.tree li:last-child{
+		background:url(icons/end.png) no-repeat;
+	}
+
+
+
+	/* IE */
+	ul.tree li.last{
+		background:url(icons/end.png) no-repeat;
+	}
+	
+	span.callback{
+		color:#aaa;
+		font-size:.8em;
+		margin-right:5px;
+	}
+	ul.tree li span.cmds{
+		float:right;
+		display:block;
+		line-height:.8em;
+	}
+	#Events{border:solid 1px #aaa;padding:10px;font-family:courier;font-size:10px;color:#666;height:80px;max-height:80px;overflow:auto;}
+		
+	div.demo,div.syntaxhighlighter{border:double 3px #aaa;padding:10px 20px;box-shadow: inset 2px 2px 2px #ccc;}
+	div.syntaxhighlighter div.toolbar{display:none;}
+	table.options tr td:first-child{font-family:courier;padding-right:1em;vertical-align:top;}
+</style>

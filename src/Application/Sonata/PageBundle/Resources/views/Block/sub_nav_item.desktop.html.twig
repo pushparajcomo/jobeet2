@@ -1,0 +1,37 @@
+{% for key, link in links %}
+<div id="navContent{{ key }}" class="navContent">
+    <div class="span12 borderTop"></div>
+        <div class="span4">
+            {% if (link.summaryTitle is defined) and (link.summaryDesc is defined) %}
+
+                    <dl>
+                        <dt><h2>{{ link.summaryTitle }}</h2></dt>
+                        <dd>
+                            {{ link.summaryDesc }}
+                        </dd>
+                    </dl>
+
+            {% endif %}
+        </div>
+        <div class="span8">
+            <div class="row">
+                {% if link.items is defined %}
+                    {% include "ApplicationSonataPageBundle:Block:sub_nav_children_item.desktop.html.twig" with {'links':link.items} only %}
+                    {#<dl>#}
+                        {#<dt><h3>Find by type</h3></dt>#}
+                        {#<dd><a href="#">Hotels</a></dd>#}
+                        {#<dd><a href="#">Bed &amp; Breakfast</a></dd>#}
+                        {#<dd><a href="#">Motel</a></dd>#}
+                        {#<dd><a href="#">Campsite</a></dd>#}
+                        {#<dd><a href="#">Cabin</a></dd>#}
+                        {#<dd><a href="#">Another type</a></dd>#}
+                    {#</dl>#}
+                {% endif %}
+            </div>
+        </div>
+    <div class="span12 borderBottom"></div>
+</div>
+{% endfor %}
+
+
+

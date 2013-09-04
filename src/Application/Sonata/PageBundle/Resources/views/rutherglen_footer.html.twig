@@ -1,0 +1,77 @@
+<div class="whiteBg footer-fix">
+
+        <div id="panel5" class="container"><!-- fifth panel -->
+            <div class="row hidden-phone hidden-tablet"><!-- desktop footer -->
+                <div class="span6"><!-- logos -->
+                    {{ sonata_page_render_container('FooterLogo1', 'global') | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'footer'}]) }}
+                    {{ sonata_page_render_container('FooterLogo2', 'global') | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'footer'}]) }}
+                    {{ sonata_page_render_container('FooterLogo3', 'global') | sonata_page_render_custome_block([{'service':'sonata.block.service.linkedmedia','template':'footer'}]) }}
+                </div>
+                {% render url('tne_footer_twitter') %}
+
+                <div class="span3" id="footer_subscribe_link">
+                    <h4>Subscribe</h4>
+                    <form>
+                        <label>Your name</label>
+                        <input class="input-block-level" type="text" name="firstname_subscribe" id="firstname_subscribe" placeholder="i.e James Raynor" />
+                        <label>Your email address</label>
+                        <input class="input-block-level" type="email" name="email_subscribe" id="email_subscribe" placeholder="i.e james@domain.com" />
+                        <input type="button" value="stay informed" onclick="save_subscribe_details()" />
+                    </form>
+                </div>
+            </div><!-- row -->
+            <div class="row show1024 hidden-desktop"><!-- mobile footer -->
+                <ul class="nav nav-list">
+                    <li>
+                        <ul class="inline footerShare">
+                            <li>
+                                <div class="addthis_toolbox addthis_floating_style addthis_24x24_style">
+                                    <a class="addthis_button_compact">
+                                        SHARE<i class="icon-share-simple" style="font-size: 1.4em;position: absolute;top: 6px;}"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- TODO: these need to be wired up to social networks  -->
+                            <li>
+                                <span class="icon-facebook"></span>
+                            </li>
+                            <li>
+                                <span class="icon-twitter"></span>
+                            </li>
+                            <li>
+                                <span class="icon-envelope-alt"></span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/booking/planner">PLANNER</a></li>
+                    <!--<li><a href="#">VISIT</a></li>-->
+                    <li><a href="/operators/search?type=0">ACCOMMODATION</a></li>
+                    <li><a href="/operators/search?type=1">EVENTS</a></li>
+                    <li><a href="/operators/search?type=2">ATTRACTIONS</a></li>
+                    <li><a href="/contact-template">CONTACT</a></li>
+                </ul>
+                <ul class="inline">
+                    <li>&copy; 2013 Rutherglen |</li>
+                    <li><a href="#" class="roman">Sitemap</a></li>
+                </ul>
+            </div><!-- row -->
+        </div> <!-- /container -->
+
+    </div>
+
+<script type="text/javascript">
+    function save_subscribe_details(){
+        $.ajax({
+            url: '{{ url('subscriber_create') }}',
+            type: "POST",
+            data: {
+                'firstname': $("#firstname_subscribe").val(),
+                'email': $("#email_subscribe").val()
+            },
+            success: function(data) {
+                alert("Hi "+ data +" you have successfully subscribed")
+            }
+        });
+        return false;
+    }
+</script>

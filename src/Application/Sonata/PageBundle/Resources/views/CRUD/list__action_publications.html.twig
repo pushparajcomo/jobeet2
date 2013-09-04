@@ -1,0 +1,6 @@
+{% if admin.hasRoute('show') %}
+    <a href="{{ admin.generateObjectUrl('show', object) }}" class="btn view_link" title="Publications">
+        <i class="icon-zoom-in"></i>
+        Publications
+    </a>
+{% endif %}

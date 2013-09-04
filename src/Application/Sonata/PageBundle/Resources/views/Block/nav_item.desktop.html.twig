@@ -1,0 +1,13 @@
+{% for link in links %}
+    <li>
+        {%if link.pageType is defined and link.pageType == 'external' %}
+            {% set url = link.externalUrl %}
+            {% set blank = 'target="_blank"' %}
+        {% else %}
+            {% set url = page(link.pageId)? path(page(link.pageId)): '#' %}
+            {% set blank = '' %}
+        {% endif %}
+        <a href="{{ url }}" {{ blank }} class="toggleDesktop">{{ link.name }}</a>
+    </li>
+{% endfor %}
+

@@ -1,0 +1,38 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends 'SonataBlockBundle:Block:block_base.html.twig' %}
+
+{% block block %}
+    {% if settings.title %}
+        <h3 class="sonata-media-block-media-title">{{ settings.title }}</h3>
+    {% endif %}
+
+    <div class="sonata-media-block-media-container">
+        {% if media %}
+            {% for mediaItem in media %}
+           
+                <article class="slide" id="{{mediaItem.id}}" style="background: url('{{  asset('bundles/applicationsonatapage/theme/img/backgrounds/landscape.png') }} repeat-x top center;">
+                    <img class="asset left-30 sp600 t120 z1" src="{% path mediaItem, 'big' %}" style="border: 20x solid #666"/>
+                    <div class="info">
+                        <h2 style="color: #fff">{{ mediaItem.description }}</h2>
+                        {% for tag in mediaItem.tagLinks %}
+                                    <span class="label label-info">{{ mediaItem }}</span>
+                        {% endfor %}
+                    </div>
+
+                </article>
+            {% endfor %}
+            {#% media media, settings.format %#}
+        {% else %}
+            {# no media selected ... #}
+        {% endif %}
+    </div>
+{% endblock %}

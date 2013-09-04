@@ -1,0 +1,830 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends 'ApplicationSonataPageBundle::rutherglen_base_layout.html.twig' %}
+
+{% block page_stylesheets %}
+    {{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/operator/general.css') }}" type="text/css" media="all"  />
+<link rel="stylesheet" href="{{ asset('bundles/tneoperator/css/theme-rutherglen.css') }}" type="text/css" media="all" />
+{% block flexslidercss %}
+    <link rel="stylesheet" href="{{ asset('bundles/applicationsonatapage/theme/rutherglen/css/operator/flexslider-content.css') }}" type="text/css" media="all"  />
+{% endblock %}
+<!--<link rel="stylesheet" href="{#{ asset('bundles/sonatamedia/nivo-gallery/nivo-gallery.css') }#}" type="text/css" media="all" /> -->
+    <style type="text/css">
+            .fullwidth-content .padder{padding: 20px 80px 30px 0;}
+            #panelGeneral3 .flexslider{ background-color: #fff; }
+            #panelGeneral3 .flex-viewport{ height: 538px;}
+            #panelGeneral3 .flex-viewport img{ width: auto !important; min-height: 100%; }
+            @media(max-width: 767px){
+                #panelGeneral3 .flex-viewport{ height: 350px;}
+                .fullwidth-content .padder{padding: 18px;}
+            }
+            @media (max-width: 480px){
+               #panelGeneral3 .flex-viewport{ height: 250px;}
+            }            
+    </style>   
+{% endblock %}
+{% block flexsliderjs %}
+    <script src="{{ asset('bundles/applicationsonatapage/theme/rutherglen/js/flexslider-content.js') }}" type="text/javascript"></script>
+{% endblock %}
+{% block bodyMain %} <body class="general">   {%  endblock %}
+{% block page_container %}
+        
+
+{% include 'ApplicationSonataPageBundle::rutherglen_header.html.twig' %}
+   <!-- START GENERAL CONTENT -->
+   
+    <div class="whiteBg general">
+        <!--<img src="{{ asset('bundles/applicationsonatapage/theme/rutherglen/img/uploaded/generalHeader.jpg') }}" alt="" style="position:relative;" />-->
+        <div id="panelGeneral1" class="container"><!-- first panel -->
+            <div class="row">
+                <div class="span12 clearfix">
+                    <div class="padder">
+                        <h1>Detailed Weather</h1>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /container -->
+    </div>
+   <div id="panelGeneral2" class="container solidBackground"><!-- first panel -->
+        <div class="row">
+            <div class="span10 clearfix">
+                {% render 'TNEOperatorBundle:Default:breadcrumb' with { 'page': page } %}
+            </div>
+            <div class="span2">
+                <ul class="inline">
+                    <li>
+                        <a href="#"><span class="entypo share"></span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="entypo print"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+    
+    <div id="panelGeneral3" class="container solidBackground weather-temp-mobile" style="background:#fafafa">
+  <!--- MOBILE ONLY MOCKUP STARTS --->
+  <div class="weather-area-main mobile">
+    <div class="weather-area-lft">
+      <div class="weather-img"><img src="{{ asset('bundles/tneoperator/img/cloud-sun-image.png') }}"></div>
+      <div class="rightnow-main">
+        <div class="rightnow-lft">
+          <div class="rightnow"> RIGHT NOW
+            <div class="temp"> 5° </div>
+            <div class="feels-main">
+              <div class="feels">FEELS</div>
+              <div class="feels-result">-1°</div>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rightnow-right">
+          <div class="rightnow-hi-main">
+            <div class="hi">HI</div>
+            <div class="hi-temp">7°</div>
+            <div class="clear"></div>
+          </div>
+          <div class="rightnow-lo-main">
+            <div class="low">LO</div>
+            <div class="hi-temp">-3°</div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="weather-temp-mobile-main">
+      <div class="mobile-weather-indiv"> <img src="{{ asset('bundles/tneoperator/img/mobile-clous-img1.png') }}">
+        <div class="mobile-temp-result">15°/7°</div>
+        <div class="mobile-weather-date">MON 17</div>
+      </div>
+      <div class="mobile-weather-indiv"> <img src="{{ asset('bundles/tneoperator/img/mobile-clous-img1.png') }}">
+        <div class="mobile-temp-result">15°/7°</div>
+        <div class="mobile-weather-date">MON 17</div>
+      </div>
+      <div class="mobile-weather-indiv"> <img src="{{ asset('bundles/tneoperator/img/mobile-clous-img1.png') }}">
+        <div class="mobile-temp-result">15°/7°</div>
+        <div class="mobile-weather-date">MON 17</div>
+      </div>
+      <div class="mobile-weather-indiv" style="margin-right:0px;"> <img src="{{ asset('bundles/tneoperator/img/mobile-clous-img1.png') }}">
+        <div class="mobile-temp-result">15°/7°</div>
+        <div class="mobile-weather-date">MON 17</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <a class="btn btn-primary" href="javascript:void(0)">More</a>
+    <div class="clear"></div>
+  </div>
+  <!--- MOBILE ONLY MOCKUP ENDS --->
+  <div class="mobile-weather-expand-div">
+    <div class="weather-heading-secondary mobile-on">Weather</div>
+    <div class="weather-area-main">
+      <div class="weather-area-lft"> `
+        <div class="weather-img"><img src="{{ asset('bundles/tneoperator/img/cloud-sun-image.png') }}"></div>
+        <div class="rightnow-main">
+          <div class="rightnow-lft">
+            <div class="rightnow"> RIGHT NOW
+              <div class="temp"> 5° </div>
+              <div class="feels-main">
+                <div class="feels">FEELS</div>
+                <div class="feels-result">-1°</div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div class="rightnow-right">
+            <div class="rightnow-hi-main">
+              <div class="hi">HI</div>
+              <div class="hi-temp">7°</div>
+              <div class="clear"></div>
+            </div>
+            <div class="rightnow-lo-main">
+              <div class="low">LO</div>
+              <div class="hi-temp">-3°</div>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="weather-right-area">
+        <div class="weather-desc-heading">Mostly Sunny</div>
+        Local morning fog patches then a mostly sunny day. Light winds becoming south to southeasterly 15 to 20 km/h in the late afternoon then becoming east to southeasterly and light in the late evening. </div>
+      <div class="clear"></div>
+    </div>
+    <div class="weather-report-div">
+      <div class="weather-report-left">
+        <div class="weather-report-indiv"> CHANCE OF RAIN
+          <div class="weather-report-indiv-result">60%</div>
+        </div>
+        <div class="weather-report-indiv"> WIND STRENGTH
+          <div class="weather-report-indiv-result">60km</div>
+        </div>
+        <div class="weather-report-indiv right_0px"> VISIBILITY
+          <div class="weather-report-indiv-result">6km</div>
+        </div>
+        <div class="weather-report-indiv"> RAINFALL AMOUNT
+          <div class="weather-report-indiv-result">2mm</div>
+        </div>
+        <div class="weather-report-indiv"> WIND DIRECTION
+          <div class="weather-report-indiv-result">South East</div>
+        </div>
+        <div class="weather-report-indiv right_0px"> UV
+          <div class="weather-report-indiv-result">Light</div>
+        </div>
+      </div>
+      <div class="weather-report-right">
+        <div class="sunrise">SUN RISE
+          <div class="sunrise-time">6am</div>
+        </div>
+        <div class="sunset">SUN SET
+          <div class="sunrise-time">7pm</div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <!-- MOBILE ONLY MOCKUP STARTS -->
+    <div class="weather-report-div mobile">
+      <div class="weather-report-left">
+        <div class="weather-report-indiv"> SUNRISE
+          <div class="weather-report-indiv-result">6am</div>
+        </div>
+        <div class="weather-report-indiv"> SUNSET
+          <div class="weather-report-indiv-result">7pm</div>
+        </div>
+        <div class="weather-report-indiv"> CHANCE OF RAIN
+          <div class="weather-report-indiv-result">60%</div>
+        </div>
+        <div class="weather-report-indiv"> RAINFALL AMOUNT
+          <div class="weather-report-indiv-result">2mm</div>
+        </div>
+        <div class="weather-report-indiv"> WIND STRENGTH
+          <div class="weather-report-indiv-result">60km</div>
+        </div>
+        <div class="weather-report-indiv"> WIND DIRECTION
+          <div class="weather-report-indiv-result">South East</div>
+        </div>
+        <div class="weather-report-indiv"> VISIBILITY
+          <div class="weather-report-indiv-result">6km</div>
+        </div>
+        <div class="weather-report-indiv"> UV
+          <div class="weather-report-indiv-result">Light</div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <!-- MOBILE ONLY MOCKUP ENDS -->
+    <!-- MOBILE ONLY MOCKUP STARTS -->
+    <div>
+      <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> MON </a> </div>
+          <div id="collapseOne" class="accordion-body collapse in">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> TUE </a> </div>
+          <div id="collapseTwo" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> WED </a> </div>
+          <div id="collapseThree" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> THUR </a> </div>
+          <div id="collapseFour" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> FRI </a> </div>
+          <div id="collapseFive" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> SAT </a> </div>
+          <div id="collapseSix" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven"> <span class="sun-cloud"></span> <span class="accordion-heading-temp">15°/7°</span> SUN </a> </div>
+          <div id="collapseSeven" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <div class="weather-area-lft">
+                <div class="weather-img"><img src="/bundles/tneoperator/img/accoridion-cloud-sun-blue.png"></div>
+                <div class="rightnow-main">
+                  <div class="rightnow-lft">
+                    <div class="rightnow"> MOSTLY SUNNY </div>
+                  </div>
+                  <div class="rightnow-right">
+                    <div class="rightnow-hi-main">
+                      <div class="hi">HI</div>
+                      <div class="hi-temp">7°</div>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="rightnow-lo-main">
+                      <div class="low">LO</div>
+                      <div class="hi-temp">-3°</div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="weather-report">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="mobile-according-weather-repo">TEMP HI/LO</td>
+                    <td class="mobile-according-weather-repo-right">15°/7°</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL CHANCE</td>
+                    <td class="mobile-according-weather-repo-right">10%</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">RAINFALL AMOUNT</td>
+                    <td class="mobile-according-weather-repo-right">10-20mm</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">UV STRENGTH</td>
+                    <td class="mobile-according-weather-repo-right">High</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @9am</td>
+                    <td class="mobile-according-weather-repo-right">30kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WINDSPEED @6PM</td>
+                    <td class="mobile-according-weather-repo-right">60kmph</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">WIND DIRECTION</td>
+                    <td class="mobile-according-weather-repo-right">SE</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-according-weather-repo">HUMIDITY</td>
+                    <td class="mobile-according-weather-repo-right">40%</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MOBILE ONLY MOCKUP ENDS -->
+  </div>
+  <div class="weather-report-table">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th class="forecast">7 DAY FORECAST</th>
+        <th>MON 18 MAR</th>
+        <th>TUES 19 MAR</th>
+        <th>WED 20 MAR</th>
+        <th>THURS 21 MAR</th>
+        <th>FRI 22 MAR</th>
+        <th>SAT 23 MAR</th>
+        <th>SUN 24 MAR</th>
+      </tr>
+      <tr>
+        <td class="weather-label">&nbsp;</td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-table.png') }}"></td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-rain-table.png') }}"></td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-rain-table.png') }}"></td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-rain-table.png') }}"></td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-rain-table.png') }}"></td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-rain-table.png') }}"></td>
+        <td class="cloud-img"><img src="{{ asset('bundles/tneoperator/img/cloud-rain-table.png') }}"></td>
+      </tr>
+      <tr class="odd">
+        <td class="weather-label">TEMP HI/LO</td>
+        <td >15°/7°</td>
+        <td>15°/7°</td>
+        <td>15°/7°</td>
+        <td>15°/7°</td>
+        <td>15°/7°</td>
+        <td>15°/7°</td>
+        <td>15°/7°</td>
+      </tr>
+      <tr >
+        <td class="weather-label">RAINFALL CHANCE</td>
+        <td>10%</td>
+        <td>10%</td>
+        <td>10%</td>
+        <td>10%</td>
+        <td>10%</td>
+        <td>10%</td>
+        <td>10%</td>
+      </tr>
+      <tr class="odd">
+        <td class="weather-label">RAINFALL AMOUNT</td>
+        <td>10-20mm</td>
+        <td>10-20mm</td>
+        <td>10-20mm</td>
+        <td>10-20mm</td>
+        <td>10-20mm</td>
+        <td>10-20mm</td>
+        <td>10-20mm</td>
+      </tr>
+      <tr>
+        <td class="weather-label">UV STRENGTH</td>
+        <td>High</td>
+        <td>High</td>
+        <td>High</td>
+        <td>High</td>
+        <td>High</td>
+        <td>High</td>
+        <td>High</td>
+      </tr>
+      <tr class="odd">
+        <td class="weather-label">WINDSPEED@9AM</td>
+        <td>30kmph</td>
+        <td>30kmph</td>
+        <td>30kmph</td>
+        <td>30kmph</td>
+        <td>30kmph</td>
+        <td>30kmph</td>
+        <td>30kmph</td>
+      </tr>
+      <tr>
+        <td class="weather-label">WINDSPEED@6AM</td>
+        <td>60kmph</td>
+        <td>60kmph</td>
+        <td>60kmph</td>
+        <td>60kmph</td>
+        <td>60kmph</td>
+        <td>60kmph</td>
+        <td>60kmph</td>
+      </tr>
+      <tr class="odd">
+        <td class="weather-label">WIND DIRECTION</td>
+        <td>SE</td>
+        <td>SE</td>
+        <td>SE</td>
+        <td>SE</td>
+        <td>SE</td>
+        <td>SE</td>
+        <td>SE</td>
+      </tr>
+      <tr>
+        <td class="weather-label">HUMIDITY</td>
+        <td>40%</td>
+        <td>40%</td>
+        <td>40%</td>
+        <td>40%</td>
+        <td>40%</td>
+        <td>40%</td>
+        <td>40%</td>
+      </tr>
+    </table>
+  </div>
+  <div class="weather-source">Weather sourced from BoM @ Falls Creek</div>
+</div>
+    
+
+    <!-- END GENERAL CONTENT -->
+
+    
+  <script>
+
+$("document").ready(function(){
+$(".btn-primary").click(function(){
+$(".mobile-weather-expand-div").slideToggle(500);    
+});
+});    
+    
+</script>  
+
+<script>
+
+    $(function() {
+
+    $('.accordion').on('show', function (e) {
+         $(e.target).prev('.accordion-heading').find('.accordion-toggle').addClass('active');
+    });
+    
+    $('.accordion').on('hide', function (e) {
+        $(this).find('.accordion-toggle').not($(e.target)).removeClass('active');
+    });
+        
+});
+    
+    </script>
+    
+    
+{% include 'ApplicationSonataPageBundle::rutherglen_footer.html.twig' %}
+
+    <div id="design"></div>
+
+        
+  
+{% endblock %}
+    
+    
+   

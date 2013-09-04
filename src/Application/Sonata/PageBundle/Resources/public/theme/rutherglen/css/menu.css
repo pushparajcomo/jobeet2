@@ -1,0 +1,9 @@
+#desktopNav{
+    position: absolute;
+    right: 0;
+    top: 39px;
+}
+.btn-menu{
+    display: inline-block;
+    margin-left: 6px;
+}
