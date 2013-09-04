@@ -26,7 +26,7 @@ use Symfony\Component\Finder\Finder;
 class CacheClearCommand extends ContainerAwareCommand
 {
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -83,6 +83,9 @@ EOF
             $this->warmup($warmupDir, $realCacheDir, !$input->getOption('no-optional-warmers'));
 
             $filesystem->rename($realCacheDir, $oldCacheDir);
+            if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+                sleep(1);  // workaround for windows php rename bug
+            }
             $filesystem->rename($warmupDir, $realCacheDir);
         }
 
@@ -139,14 +142,6 @@ EOF
             file_put_contents(str_replace($search, $replace, $file), $content);
             unlink($file);
         }
-    }
-
-    /**
-     * @deprecated to be removed in 2.3
-     */
-    protected function getTempSuffix()
-    {
-        return '';
     }
 
     /**

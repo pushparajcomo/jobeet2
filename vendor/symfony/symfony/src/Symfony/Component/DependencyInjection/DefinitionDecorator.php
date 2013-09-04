@@ -150,6 +150,18 @@ class DefinitionDecorator extends Definition
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
+    public function setLazy($boolean)
+    {
+        $this->changes['lazy'] = true;
+
+        return parent::setLazy($boolean);
+    }
+
+    /**
      * Gets an argument to pass to the service constructor/factory method.
      *
      * If replaceArgument() has been used to replace an argument, this method
@@ -159,7 +171,7 @@ class DefinitionDecorator extends Definition
      *
      * @return mixed The argument value
      *
-     * @throws \OutOfBoundsException When the argument does not exist
+     * @throws OutOfBoundsException When the argument does not exist
      *
      * @api
      */

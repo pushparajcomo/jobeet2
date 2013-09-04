@@ -396,6 +396,27 @@ EOF;
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
 
+    /**
+     * Regression test for issue #7989.
+     *
+     * @see https://github.com/symfony/symfony/issues/7989
+     */
+    public function testBlockLiteralWithLeadingNewlines()
+    {
+        $yaml = <<<'EOF'
+foo: |-
+
+
+    bar
+
+EOF;
+        $expected = array(
+            'foo' => "\n\nbar"
+        );
+
+        $this->assertSame($expected, $this->parser->parse($yaml));
+    }
+
     public function testObjectSupportEnabled()
     {
         $input = <<<EOF
@@ -450,7 +471,7 @@ EOF;
 
     /**
      *
-     * @expectedException Symfony\Component\Yaml\Exception\ParseException
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      *
      */
     public function testUnindentedCollectionException()
@@ -468,7 +489,7 @@ EOF;
     }
 
     /**
-     * @expectedException Symfony\Component\Yaml\Exception\ParseException
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
     public function testSequenceInAMapping()
     {
@@ -481,7 +502,7 @@ EOF
     }
 
     /**
-     * @expectedException Symfony\Component\Yaml\Exception\ParseException
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
     public function testMappingInASequence()
     {
@@ -491,6 +512,104 @@ yaml:
   hash: me
 EOF
         );
+    }
+
+    public function testEmptyValue()
+    {
+        $input = <<<EOF
+hash:
+EOF;
+
+        $this->assertEquals(array('hash' => null), Yaml::parse($input));
+    }
+
+    public function testStringBlockWithComments()
+    {
+        $this->assertEquals(array('content' => <<<EOT
+# comment 1
+header
+
+    # comment 2
+    <body>
+        <h1>title</h1>
+    </body>
+
+footer # comment3
+EOT
+        ), Yaml::parse(<<<EOF
+content: |
+    # comment 1
+    header
+
+        # comment 2
+        <body>
+            <h1>title</h1>
+        </body>
+
+    footer # comment3
+EOF
+        ));
+    }
+
+    public function testFoldedStringBlockWithComments()
+    {
+        $this->assertEquals(array(array('content' => <<<EOT
+# comment 1
+header
+
+    # comment 2
+    <body>
+        <h1>title</h1>
+    </body>
+
+footer # comment3
+EOT
+        )), Yaml::parse(<<<EOF
+-
+    content: |
+        # comment 1
+        header
+
+            # comment 2
+            <body>
+                <h1>title</h1>
+            </body>
+
+        footer # comment3
+EOF
+        ));
+    }
+
+    public function testNestedFoldedStringBlockWithComments()
+    {
+        $this->assertEquals(array(array(
+            'title'   => 'some title',
+            'content' => <<<EOT
+# comment 1
+header
+
+    # comment 2
+    <body>
+        <h1>title</h1>
+    </body>
+
+footer # comment3
+EOT
+        )), Yaml::parse(<<<EOF
+-
+    title: some title
+    content: |
+        # comment 1
+        header
+
+            # comment 2
+            <body>
+                <h1>title</h1>
+            </body>
+
+        footer # comment3
+EOF
+        ));
     }
 }
 

@@ -15,12 +15,12 @@ use \ModelCriteria;
 use \BaseObject;
 use \Persistent;
 
-use Symfony\Component\Form\Exception\FormException;
 use Symfony\Component\Form\Exception\StringCastException;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ObjectChoiceList;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
- * Widely inspirated by the EntityChoiceList.
+ * Widely inspired by the EntityChoiceList.
  *
  * @author William Durand <william.durand1@gmail.com>
  * @author Toni Uebernickel <tuebernickel@gmail.com>
@@ -58,24 +58,32 @@ class ModelChoiceList extends ObjectChoiceList
     protected $loaded = false;
 
     /**
+     * Whether to use the identifier for index generation
+     *
+     * @var Boolean
+     */
+    private $identifierAsIndex = false;
+
+    /**
      * Constructor.
      *
      * @see Symfony\Bridge\Propel1\Form\Type\ModelType How to use the preferred choices.
      *
-     * @param string              $class       The FQCN of the model class to be loaded.
-     * @param string              $labelPath   A property path pointing to the property used for the choice labels.
-     * @param array               $choices     An optional array to use, rather than fetching the models.
-     * @param ModelCriteria       $queryObject The query to use retrieving model data from database.
-     * @param string              $groupPath   A property path pointing to the property used to group the choices.
-     * @param array|ModelCriteria $preferred   The preferred items of this choice.
-     *                                         Either an array if $choices is given,
-     *                                         or a ModelCriteria to be merged with the $queryObject.
+     * @param string                   $class             The FQCN of the model class to be loaded.
+     * @param string                   $labelPath         A property path pointing to the property used for the choice labels.
+     * @param array                    $choices           An optional array to use, rather than fetching the models.
+     * @param ModelCriteria            $queryObject       The query to use retrieving model data from database.
+     * @param string                   $groupPath         A property path pointing to the property used to group the choices.
+     * @param array|ModelCriteria      $preferred         The preferred items of this choice.
+     *                                                    Either an array if $choices is given,
+     *                                                    or a ModelCriteria to be merged with the $queryObject.
+     * @param PropertyAccessorInterface $propertyAccessor The reflection graph for reading property paths.
      */
-    public function __construct($class, $labelPath = null, $choices = null, $queryObject = null, $groupPath = null, $preferred = array())
+    public function __construct($class, $labelPath = null, $choices = null, $queryObject = null, $groupPath = null, $preferred = array(), PropertyAccessorInterface $propertyAccessor = null)
     {
         $this->class        = $class;
 
-        $queryClass         = $this->class . 'Query';
+        $queryClass         = $this->class.'Query';
         $query              = new $queryClass();
 
         $this->identifier   = $query->getTableMap()->getPrimaryKeys();
@@ -93,7 +101,11 @@ class ModelChoiceList extends ObjectChoiceList
             $preferred = array();
         }
 
-        parent::__construct($choices, $labelPath, $preferred, $groupPath);
+        if (1 === count($this->identifier) && $this->isInteger(current($this->identifier))) {
+            $this->identifierAsIndex = true;
+        }
+
+        parent::__construct($choices, $labelPath, $preferred, $groupPath, null, $propertyAccessor);
     }
 
     /**
@@ -185,7 +197,7 @@ class ModelChoiceList extends ObjectChoiceList
     {
         if (!$this->loaded) {
             if (1 === count($this->identifier)) {
-                $filterBy = 'filterBy' . current($this->identifier)->getPhpName();
+                $filterBy = 'filterBy'.current($this->identifier)->getPhpName();
 
                 return (array) $this->query->create()
                     ->$filterBy($values)
@@ -243,14 +255,14 @@ class ModelChoiceList extends ObjectChoiceList
      */
     public function getIndicesForChoices(array $models)
     {
+        $indices = array();
+
         if (!$this->loaded) {
             // Optimize performance for single-field identifiers. We already
             // know that the IDs are used as indices
 
             // Attention: This optimization does not check choices for existence
-            if (1 === count($this->identifier)) {
-                $indices = array();
-
+            if ($this->identifierAsIndex) {
                 foreach ($models as $model) {
                     if ($model instanceof $this->class) {
                         // Make sure to convert to the right format
@@ -264,7 +276,30 @@ class ModelChoiceList extends ObjectChoiceList
             $this->load();
         }
 
-        return parent::getIndicesForChoices($models);
+        /*
+         * Overwriting default implementation.
+         *
+         * The two objects may represent the same entry in the database,
+         * but if they originated from different queries, there are not the same object within the code.
+         *
+         * This happens when using m:n relations with either sides model as data_class of the form.
+         * The choicelist will retrieve the list of available related models with a different query, resulting in different objects.
+         */
+        $choices = $this->fixChoices($models);
+        foreach ($this->getChoices() as $i => $choice) {
+            foreach ($choices as $j => $givenChoice) {
+                if (null !== $givenChoice && $this->getIdentifierValues($choice) === $this->getIdentifierValues($givenChoice)) {
+                    $indices[] = $i;
+                    unset($choices[$j]);
+
+                    if (0 === count($choices)) {
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        return $indices;
     }
 
     /**
@@ -283,7 +318,7 @@ class ModelChoiceList extends ObjectChoiceList
             // know that the IDs are used as indices and values
 
             // Attention: This optimization does not check values for existence
-            if (1 === count($this->identifier)) {
+            if ($this->identifierAsIndex) {
                 return $this->fixIndices($values);
             }
 
@@ -307,7 +342,7 @@ class ModelChoiceList extends ObjectChoiceList
      */
     protected function createIndex($model)
     {
-        if (1 === count($this->identifier)) {
+        if ($this->identifierAsIndex) {
             return current($this->getIdentifierValues($model));
         }
 
@@ -364,7 +399,8 @@ class ModelChoiceList extends ObjectChoiceList
      * exception is thrown.
      *
      * @param object $model The model for which to get the identifier
-     * @throws FormException   If the model does not exist
+     *
+     * @return array
      */
     private function getIdentifierValues($model)
     {
@@ -377,6 +413,22 @@ class ModelChoiceList extends ObjectChoiceList
             return array($model->getPrimaryKey());
         }
 
+        if (null === $model) {
+            return array();
+        }
+
         return $model->getPrimaryKeys();
+    }
+
+    /**
+     * Whether this column in an integer
+     *
+     * @param \ColumnMap $column
+     *
+     * @return Boolean
+     */
+    private function isInteger(\ColumnMap $column)
+    {
+        return $column->getPdoType() === \PDO::PARAM_INT;
     }
 }

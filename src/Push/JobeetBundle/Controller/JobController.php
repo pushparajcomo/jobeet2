@@ -106,7 +106,7 @@ class JobController extends Controller
       $entity  = new Job();
       $request = $this->getRequest();
       $form    = $this->createForm(new JobType(), $entity);
-      $form->bindRequest($request);
+      $form->bind($request);
 
       if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
@@ -170,7 +170,7 @@ class JobController extends Controller
 
       $request = $this->getRequest();
 
-      $editForm->bindRequest($request);
+      $editForm->bind($request);
 
       if ($editForm->isValid()) {
         $em->persist($entity);
@@ -247,7 +247,7 @@ class JobController extends Controller
       $form = $this->createPublishForm($token);
       $request = $this->getRequest();
 
-      $form->bindRequest($request);
+      $form->bind($request);
 
       if ($form->isValid()) {
         $em = $this->getDoctrine()->getEntityManager();
@@ -261,7 +261,7 @@ class JobController extends Controller
         $em->persist($entity);
         $em->flush();
 
-        $this->get('session')->setFlash('notice', 'Your job is now online for 30 days.');
+        $this->get('session')->getFlashBag('notice', 'Your job is now online for 30 days.');
       }
 
       return $this->redirect($this->generateUrl('push_job_preview', array(

@@ -120,7 +120,12 @@ class Link
             return $baseUri.$uri;
         }
 
-        $baseUri = preg_replace('#^(.*?//[^/]+)(?:\/.*)?$#', '$1', $this->currentUri);
+        // absolute URL with relative schema
+        if (0 === strpos($uri, '//')) {
+            return preg_replace('#^([^/]*)//.*$#', '$1', $this->currentUri).$uri;
+        }
+
+        $baseUri = preg_replace('#^(.*?//[^/]*)(?:\/.*)?$#', '$1', $this->currentUri);
 
         // absolute path
         if ('/' === $uri[0]) {
@@ -135,7 +140,7 @@ class Link
     }
 
     /**
-     * Returns raw uri data
+     * Returns raw uri data.
      *
      * @return string
      */
@@ -175,7 +180,7 @@ class Link
     }
 
     /**
-     * Sets current \DOMNode instance
+     * Sets current \DOMNode instance.
      *
      * @param \DOMNode $node A \DOMNode instance
      *

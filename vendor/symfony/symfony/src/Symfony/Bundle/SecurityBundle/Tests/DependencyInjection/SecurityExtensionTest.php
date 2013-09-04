@@ -154,6 +154,14 @@ abstract class SecurityExtensionTest extends \PHPUnit_Framework_TestCase
                 'arguments' => array('md5', true, 5000),
             ),
             'JMS\FooBundle\Entity\User4' => new Reference('security.encoder.foo'),
+            'JMS\FooBundle\Entity\User5' => array(
+                'class' => new Parameter('security.encoder.pbkdf2.class'),
+                'arguments' => array('sha1', false, 5, 30),
+            ),
+            'JMS\FooBundle\Entity\User6' => array(
+                'class' => new Parameter('security.encoder.bcrypt.class'),
+                'arguments' => array(15),
+            ),
         )), $container->getDefinition('security.encoder_factory.generic')->getArguments());
     }
 
@@ -171,6 +179,15 @@ abstract class SecurityExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($container->hasDefinition('security.acl.dbal.provider'));
         $this->assertEquals('foo', (string) $container->getAlias('security.acl.provider'));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage not matched by the firewall pattern
+     */
+    public function testInvalidCheckPath()
+    {
+        $container = $this->getContainer('invalid_check_path');
     }
 
     protected function getContainer($file)

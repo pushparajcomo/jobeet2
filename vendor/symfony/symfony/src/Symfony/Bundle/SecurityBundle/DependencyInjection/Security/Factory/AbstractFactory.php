@@ -29,6 +29,7 @@ abstract class AbstractFactory implements SecurityFactoryInterface
     protected $options = array(
         'check_path'                     => '/login_check',
         'use_forward'                    => false,
+        'require_previous_session'       => true,
     );
 
     protected $defaultSuccessHandlerOptions = array(
@@ -43,6 +44,7 @@ abstract class AbstractFactory implements SecurityFactoryInterface
         'failure_path'                   => null,
         'failure_forward'                => false,
         'login_path'                     => '/login',
+        'failure_path_parameter'         => '_failure_path',
     );
 
     public function create(ContainerBuilder $container, $id, $config, $userProviderId, $defaultEntryPointId)

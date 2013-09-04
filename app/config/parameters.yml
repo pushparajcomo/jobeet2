@@ -1,8 +1,9 @@
+# This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: localhost
+    database_host: 127.0.0.1
     database_port: null
-    database_name: jobeet_test
+    database_name: jobeet2
     database_user: root
     database_password: null
     mailer_transport: smtp
@@ -10,5 +11,4 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: en
-    secret: 41050a8a136595c7b4829fe9dcc51fdd41f036fd
-    database_path: null
+    secret: ThisTokenIsNotSoSecretChangeIt

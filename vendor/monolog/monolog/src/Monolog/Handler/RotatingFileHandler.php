@@ -20,12 +20,14 @@ use Monolog\Logger;
  * handle the rotation is strongly encouraged when you can use it.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ * @author Jordi Boggiano <j.boggiano@seld.be>
  */
 class RotatingFileHandler extends StreamHandler
 {
     protected $filename;
     protected $maxFiles;
     protected $mustRotate;
+    protected $nextRotation;
 
     /**
      * @param string  $filename
@@ -37,19 +39,9 @@ class RotatingFileHandler extends StreamHandler
     {
         $this->filename = $filename;
         $this->maxFiles = (int) $maxFiles;
+        $this->nextRotation = new \DateTime('tomorrow');
 
-        $fileInfo = pathinfo($this->filename);
-        $timedFilename = $fileInfo['dirname'].'/'.$fileInfo['filename'].'-'.date('Y-m-d');
-        if (!empty($fileInfo['extension'])) {
-            $timedFilename .= '.'.$fileInfo['extension'];
-        }
-
-        // disable rotation upfront if files are unlimited
-        if (0 === $this->maxFiles) {
-            $this->mustRotate = false;
-        }
-
-        parent::__construct($timedFilename, $level, $bubble);
+        parent::__construct($this->getTimedFilename(), $level, $bubble);
     }
 
     /**
@@ -74,6 +66,11 @@ class RotatingFileHandler extends StreamHandler
             $this->mustRotate = !file_exists($this->url);
         }
 
+        if ($this->nextRotation < $record['datetime']) {
+            $this->mustRotate = true;
+            $this->close();
+        }
+
         parent::write($record);
     }
 
@@ -82,28 +79,46 @@ class RotatingFileHandler extends StreamHandler
      */
     protected function rotate()
     {
+        // update filename
+        $this->url = $this->getTimedFilename();
+        $this->nextRotation = new \DateTime('tomorrow');
+
+        // skip GC of old logs if files are unlimited
+        if (0 === $this->maxFiles) {
+            return;
+        }
+
         $fileInfo = pathinfo($this->filename);
         $glob = $fileInfo['dirname'].'/'.$fileInfo['filename'].'-*';
         if (!empty($fileInfo['extension'])) {
             $glob .= '.'.$fileInfo['extension'];
         }
-        $iterator = new \GlobIterator($glob);
-        $count = $iterator->count();
-        if ($this->maxFiles >= $count) {
+        $logFiles = glob($glob);
+        if ($this->maxFiles >= count($logFiles)) {
             // no files to remove
             return;
         }
 
         // Sorting the files by name to remove the older ones
-        $array = iterator_to_array($iterator);
-        usort($array, function($a, $b) {
-            return strcmp($b->getFilename(), $a->getFilename());
+        usort($logFiles, function($a, $b) {
+            return strcmp($b, $a);
         });
 
-        foreach (array_slice($array, $this->maxFiles) as $file) {
-            if ($file->isWritable()) {
-                unlink($file->getRealPath());
+        foreach (array_slice($logFiles, $this->maxFiles) as $file) {
+            if (is_writable($file)) {
+                unlink($file);
             }
         }
+    }
+
+    protected function getTimedFilename()
+    {
+        $fileInfo = pathinfo($this->filename);
+        $timedFilename = $fileInfo['dirname'].'/'.$fileInfo['filename'].'-'.date('Y-m-d');
+        if (!empty($fileInfo['extension'])) {
+            $timedFilename .= '.'.$fileInfo['extension'];
+        }
+
+        return $timedFilename;
     }
 }

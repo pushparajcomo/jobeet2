@@ -3,6 +3,7 @@
 namespace Push\JobeetBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 

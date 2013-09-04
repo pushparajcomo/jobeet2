@@ -89,7 +89,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testCopyFails()
     {
@@ -207,7 +207,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testMkdirCreatesDirectoriesFails()
     {
@@ -229,7 +229,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testTouchFails()
     {
@@ -518,7 +518,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testChownSymlinkFails()
     {
@@ -531,11 +531,11 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystem->symlink($file, $link);
 
-        $this->filesystem->chown($link, 'user' . time() . mt_rand(1000, 9999));
+        $this->filesystem->chown($link, 'user'.time().mt_rand(1000, 9999));
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testChownFail()
     {
@@ -544,7 +544,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $dir = $this->workspace.DIRECTORY_SEPARATOR.'dir';
         mkdir($dir);
 
-        $this->filesystem->chown($dir, 'user' . time() . mt_rand(1000, 9999));
+        $this->filesystem->chown($dir, 'user'.time().mt_rand(1000, 9999));
     }
 
     public function testChgrp()
@@ -584,7 +584,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testChgrpSymlinkFails()
     {
@@ -597,11 +597,11 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystem->symlink($file, $link);
 
-        $this->filesystem->chgrp($link, 'user' . time() . mt_rand(1000, 9999));
+        $this->filesystem->chgrp($link, 'user'.time().mt_rand(1000, 9999));
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testChgrpFail()
     {
@@ -610,7 +610,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $dir = $this->workspace.DIRECTORY_SEPARATOR.'dir';
         mkdir($dir);
 
-        $this->filesystem->chgrp($dir, 'user' . time() . mt_rand(1000, 9999));
+        $this->filesystem->chgrp($dir, 'user'.time().mt_rand(1000, 9999));
     }
 
     public function testRename()
@@ -626,7 +626,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testRenameThrowsExceptionIfTargetAlreadyExists()
     {
@@ -639,8 +639,22 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->rename($file, $newPath);
     }
 
+    public function testRenameOverwritesTheTargetIfItAlreadyExists()
+    {
+        $file = $this->workspace.DIRECTORY_SEPARATOR.'file';
+        $newPath = $this->workspace.DIRECTORY_SEPARATOR.'new_file';
+
+        touch($file);
+        touch($newPath);
+
+        $this->filesystem->rename($file, $newPath, true);
+
+        $this->assertFileNotExists($file);
+        $this->assertFileExists($newPath);
+    }
+
     /**
-     * @expectedException Symfony\Component\Filesystem\Exception\IOException
+     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
      */
     public function testRenameThrowsExceptionOnError()
     {
@@ -798,6 +812,24 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_dir($targetPath.'directory'));
         $this->assertFileEquals($file1, $targetPath.'directory'.DIRECTORY_SEPARATOR.'file1');
         $this->assertFileEquals($file2, $targetPath.'file2');
+
+        $this->filesystem->remove($file1);
+
+        $this->filesystem->mirror($sourcePath, $targetPath, null, array('delete' => false));
+        $this->assertTrue($this->filesystem->exists($targetPath.'directory'.DIRECTORY_SEPARATOR.'file1'));
+
+        $this->filesystem->mirror($sourcePath, $targetPath, null, array('delete' => true));
+        $this->assertFalse($this->filesystem->exists($targetPath.'directory'.DIRECTORY_SEPARATOR.'file1'));
+
+        file_put_contents($file1, 'FILE1');
+
+        $this->filesystem->mirror($sourcePath, $targetPath, null, array('delete' => true));
+        $this->assertTrue($this->filesystem->exists($targetPath.'directory'.DIRECTORY_SEPARATOR.'file1'));
+
+        $this->filesystem->remove($directory);
+        $this->filesystem->mirror($sourcePath, $targetPath, null, array('delete' => true));
+        $this->assertFalse($this->filesystem->exists($targetPath.'directory'));
+        $this->assertFalse($this->filesystem->exists($targetPath.'directory'.DIRECTORY_SEPARATOR.'file1'));
     }
 
     public function testMirrorCopiesLinks()
@@ -825,7 +857,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
         $sourcePath = $this->workspace.DIRECTORY_SEPARATOR.'source'.DIRECTORY_SEPARATOR;
 
-        mkdir($sourcePath . 'nested/', 0777, true);
+        mkdir($sourcePath.'nested/', 0777, true);
         file_put_contents($sourcePath.'/nested/file1.txt', 'FILE1');
         // Note: We symlink directory, not file
         symlink($sourcePath.'nested', $sourcePath.'link1');
@@ -865,10 +897,36 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDumpFile()
+    {
+        $filename = $this->workspace.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'baz.txt';
+
+        $this->filesystem->dumpFile($filename, 'bar', 0753);
+
+        $this->assertFileExists($filename);
+        $this->assertSame('bar', file_get_contents($filename));
+
+        // skip mode check on windows
+        if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
+            $this->assertEquals(753, $this->getFilePermissions($filename));
+        }
+    }
+
+    public function testDumpFileOverwritesAnExistingFile()
+    {
+        $filename = $this->workspace.DIRECTORY_SEPARATOR.'foo.txt';
+        file_put_contents($filename, 'FOO BAR');
+
+        $this->filesystem->dumpFile($filename, 'bar');
+
+        $this->assertFileExists($filename);
+        $this->assertSame('bar', file_get_contents($filename));
+    }
+
     /**
      * Returns file permissions as three digits (i.e. 755)
      *
-     * @param string $filepath
+     * @param string $filePath
      *
      * @return integer
      */
