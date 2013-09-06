@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "dd5607ab66c5b3b2c7b6eee3a0c6e9b7",
+    "hash": "43d2ccec591d08114bf93f1452208760",
     "packages": [
         {
             "name": "doctrine/common",
@@ -1167,12 +1167,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "9643ff5402ae97d99fdf402f06902de1c126fc64"
+                "reference": "11a49bd2e2f44226877631bfa82f8ec89b06fc0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/9643ff5402ae97d99fdf402f06902de1c126fc64",
-                "reference": "9643ff5402ae97d99fdf402f06902de1c126fc64",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/11a49bd2e2f44226877631bfa82f8ec89b06fc0f",
+                "reference": "11a49bd2e2f44226877631bfa82f8ec89b06fc0f",
                 "shasum": ""
             },
             "require": {
@@ -1235,7 +1235,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-09-02 21:11:41"
+            "time": "2013-09-05 08:53:14"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -1244,12 +1244,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataBlockBundle.git",
-                "reference": "7ee99458e1236f9e047daccc8dba394e599ebf94"
+                "reference": "c5e224cac3aa15b3abd840dfd677fbe4149df40f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/7ee99458e1236f9e047daccc8dba394e599ebf94",
-                "reference": "7ee99458e1236f9e047daccc8dba394e599ebf94",
+                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/c5e224cac3aa15b3abd840dfd677fbe4149df40f",
+                "reference": "c5e224cac3aa15b3abd840dfd677fbe4149df40f",
                 "shasum": ""
             },
             "require": {
@@ -1297,7 +1297,7 @@
                 "block",
                 "sonata"
             ],
-            "time": "2013-09-02 09:30:08"
+            "time": "2013-09-05 08:50:39"
         },
         {
             "name": "sonata-project/cache-bundle",
@@ -1751,12 +1751,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataMediaBundle.git",
-                "reference": "ba12f57047bb6b7952674d0edf40a7ea6d067feb"
+                "reference": "8f9646c0ec2ac8ba566af9d764abfda251cd451a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/ba12f57047bb6b7952674d0edf40a7ea6d067feb",
-                "reference": "ba12f57047bb6b7952674d0edf40a7ea6d067feb",
+                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/8f9646c0ec2ac8ba566af9d764abfda251cd451a",
+                "reference": "8f9646c0ec2ac8ba566af9d764abfda251cd451a",
                 "shasum": ""
             },
             "require": {
@@ -1818,7 +1818,7 @@
                 "vimeo",
                 "youtube"
             ],
-            "time": "2013-09-02 16:24:56"
+            "time": "2013-09-04 11:30:26"
         },
         {
             "name": "sonata-project/notification-bundle",
